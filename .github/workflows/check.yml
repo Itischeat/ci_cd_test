@@ -1,0 +1,5 @@
+name: Check
+on: push
+jobs:
+  lint:
+    runs-on: ubuntu-latest
