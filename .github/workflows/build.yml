@@ -6,10 +6,11 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Install deps
-        run: npm ci
-      - name: pre-build
-        run: npm run build
-        
+      -  name: Checkout
+         uses: actions/checkout@v3
+      -  name: Install deps
+         run: npm ci
+      -  name: Build
+         run: npm run build
+      -  name: Start
+         run: pm2 restart ci_cd_test
