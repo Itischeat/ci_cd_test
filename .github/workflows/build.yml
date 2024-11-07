@@ -12,5 +12,7 @@ jobs:
          run: npm ci
       -  name: Build
          run: npm run build
-      -  name: Start
-         run: npm run start
+      -  name: build image
+         run: docker build -t ci_cd_test .
+      -  name: start container
+         run: docker run -d -p 3000:3000 ci_cd_test
