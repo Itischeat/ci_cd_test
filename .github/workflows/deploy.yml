@@ -1,4 +1,4 @@
-name: Check
+name: Deploy
 on: push
 jobs:
   lint:
@@ -24,9 +24,9 @@ jobs:
     needs: [ test ]
     runs-on: self-hosted
     steps:
-      - name: docker prune
+      - name: Docker prune
         run: docker system prune -f
-      - name: stop current container
+      - name: Stop current container
         run: docker stop ci_cd_test && docker rm ci_cd_test || echo "Запущенного контейнера нету"
   deploy:
     needs: [ cleanup ]
@@ -36,5 +36,5 @@ jobs:
         uses: actions/checkout@v3
       - name: Create image
         run: docker build -t ci_cd_test .
-      - name: start container
+      - name: Start container
         run: docker run --restart=always --name ci_cd_test -d -p 3000:3000 ci_cd_test
