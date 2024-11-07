@@ -20,3 +20,21 @@ jobs:
         run: npm ci
       - name: Lint
         run: npm run test
+  cleanup:
+    needs: [ test ]
+    runs-on: self-hosted
+    steps:
+      - name: docker prune
+        run: docker system prune -f
+      - name: stop current container
+        run: docker stop ci_cd_test && docker rm ci_cd_test || echo "Запущенного контейнера нету"
+  deploy:
+    needs: [ cleanup ]
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Create image
+        run: docker build -t ci_cd_test .
+      - name: start container
+        run: docker run --restart=always --name ci_cd_test -d -p 3000:3000 ci_cd_test
